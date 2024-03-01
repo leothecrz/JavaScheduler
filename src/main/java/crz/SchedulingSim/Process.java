@@ -1,5 +1,7 @@
 package crz.SchedulingSim;
 
+import java.lang.StringBuilder;
+
 public class Process 
 {
  
@@ -43,5 +45,29 @@ public class Process
     public int getResponceTime() {return responceTime;}
     public int getStartTime() {return startTime;}
     public int getWaitingTime() {return waitingTime;}
+
+    @Override
+    public String toString()
+    {
+      StringBuilder sb = new StringBuilder();
+  
+      sb.append("PID: ");
+      sb.append(Integer.valueOf(PID));
+      sb.append("\n");
+
+      sb.append("Arrival: ");
+      sb.append(Integer.valueOf(arrivalTime));
+      sb.append("\n");
+
+      sb.append("Burst: ");
+      sb.append(Integer.valueOf(burstTime));
+      sb.append("\n");
+
+      sb.append("Priority: ");
+      sb.append(Integer.valueOf(priority));
+      sb.append("\n\n");
+
+      return sb.toString()  ;
+    }
 
 }
