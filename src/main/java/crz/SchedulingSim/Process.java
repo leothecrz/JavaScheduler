@@ -1,5 +1,7 @@
 package crz.SchedulingSim;
 
+import java.lang.StringBuilder;
+
 public class Process 
 {
  

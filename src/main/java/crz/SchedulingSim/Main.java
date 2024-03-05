@@ -42,6 +42,7 @@ public class Main
             reader = new BufferedReader( new FileReader(file));
         } 
         catch (FileNotFoundException e) 
+        //Only accesible if file is deleted while the program passes file to function.
         {
             System.err.printf("File '%s' Not Found", file.getAbsolutePath());
             return new Process[0];
@@ -54,8 +55,11 @@ public class Main
             String line;
             while ( (line = reader.readLine()) != null ) 
             {
-                int[] processInfo = new int[4];
+                if(line.isBlank())
+                    continue;
+
                 String[] list = line.split("\s+");
+                int[] processInfo = new int[list.length];
                 int i = 0;
 
                 try 
@@ -88,22 +92,55 @@ public class Main
         }
         finally
         {
-            try {
+            try 
+            {
                 reader.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            } 
+            catch (IOException ex) 
+            {
+                ex.printStackTrace();
             }
         }
 
+        int stackSize = processessStack.size();
+        Process[] processesArray = new Process[stackSize];
 
-        Process[] processesArray = new Process[processessStack.size()];
         int i = 0;
+        stackSize += -1;
         while (!processessStack.isEmpty()) 
         {
-            processesArray[i] = processessStack.pop();
-            i += 1;       
+            processesArray[stackSize - i] = processessStack.pop();
+            i += 1;
         }
         return processesArray;
+
+    }
+
+    public static String askForFileName()
+    {
+        System.out.print("Enter the path to the file to be analysed. \n >>");
+        try
+        {
+            BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+            
+            File fCheck;
+
+            String input = in.readLine();
+
+            
+
+            
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            return "";
+        }
+        return "";
+    }
+
+    public static void showMenu()
+    {
 
     }
 
