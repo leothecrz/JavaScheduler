@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.security.AlgorithmConstraints;
 import java.util.Arrays;
 import java.util.Stack;
 
@@ -115,35 +114,6 @@ public class Main
         return processesArray;
 
     }
-
-    public static String askForFileName()
-    {
-        System.out.print("Enter the path to the file to be analysed. \n >>");
-        try
-        {
-            BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-            
-            File fCheck;
-
-            String input = in.readLine();
-
-            
-
-            
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-            return "";
-        }
-        return "";
-    }
-
-    public static void showMenu()
-    {
-
-    }
-
 
 	/**
 	 * 
