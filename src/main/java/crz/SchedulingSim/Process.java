@@ -44,4 +44,20 @@ public class Process
     public int getStartTime() {return startTime;}
     public int getWaitingTime() {return waitingTime;}
 
+	@Override
+	public String toString() 
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.append("PID: ");
+			sb.append(String.valueOf(PID));
+		sb.append("  Arrival: ");
+			sb.append(String.valueOf(arrivalTime));
+		sb.append("  Burst: ");
+			sb.append(String.valueOf(burstTime));
+		sb.append("  Priority: ");
+			sb.append(String.valueOf(priority));
+		sb.append("\n");
+		return sb.toString();
+	}
+
 }
