@@ -5,46 +5,96 @@ import java.lang.StringBuilder;
 public class Process 
 {
  
-    private int PID;
-    private int arrivalTime;
-    private int burstTime;
-    private int remainingTime;
-    private int priority;
-    private int startTime;
-    private int finishTime;
-    private int waitingTime;
-    private int responceTime;
+    private long PID;
+    private long arrivalTime;
+	private long lastArrival;
+    private long burstTime;
+    private long remainingTime;
+    private long priority;
+    private long startTime;
+    private long finishTime;
+    private long waitingTime;
+    private long responceTime;
+	private long turnAroundTime;
 
-    public Process(int pid, int arrival, int burst, int priority)
+	private boolean startTimeSet;
+
+    public Process(long pid, long arrival, long burst, long priority)
     {
 
-        PID = pid;
-        arrivalTime = arrival;
-        burstTime = burst;
-        remainingTime = burst;
+        this.PID = pid;
+        this.arrivalTime = arrival;
+		this.lastArrival = arrival;
+        this.burstTime = burst;
+        this.remainingTime = burst;
         this.priority = priority;
 
-        startTime = 0;
-        finishTime = 0;
-        waitingTime = 0;
-        responceTime = -1;
+		this.startTimeSet = false;
+
+        this.startTime = 0;
+        this.finishTime = 0;
+        this.waitingTime = 0;		
+        this.responceTime = -1;
+		this.turnAroundTime = 0;
 
     }
 
-    public void setStartTime(int startTime) {this.startTime = startTime;}
-    public void setFinishTime(int finishTime) {this.finishTime = finishTime;}
-    public void setWaitingTime(int waitingTime) { this.waitingTime = waitingTime;}
-    public void setRemainingTime(int remainingTime) { this.remainingTime = remainingTime;}
+	public Process(int pid, int arrival, int burst, int priority)
+	{
+	 	this((long)pid,(long)arrival,(long)burst,(long)priority);
+	}
 
-    public int getArrivalTime() {return arrivalTime;}
-    public int getBurstTime() {return burstTime;}
-    public int getFinishTime() {return finishTime;}
-    public int getPID() {return PID;}
-    public int getPriority() {return priority;}
-    public int getRemainingTime() {return remainingTime;}
-    public int getResponceTime() {return responceTime;}
-    public int getStartTime() {return startTime;}
-    public int getWaitingTime() {return waitingTime;}
+	public void decrementRemainingTime(long time)
+	{
+		remainingTime -= time;
+		if(remainingTime < 0)
+			remainingTime = 0;
+	}
+
+    public void setStartTime(long startTime) 
+	{
+		this.startTime = startTime;
+		this.responceTime = startTime - arrivalTime;
+		startTimeSet = true;
+	}
+
+    public void setFinishTime(long finishTime) 
+	{
+		this.finishTime = finishTime;
+		this.turnAroundTime = finishTime - arrivalTime;
+	}
+
+    public void setWaitingTime(long waitingTime) { this.waitingTime = waitingTime;}
+
+    public void setRemainingTime(long remainingTime) { this.remainingTime = remainingTime;}
+
+	public void setLastArrivalTime(long arrivalTime) { this.lastArrival = arrivalTime;}
+
+	public boolean isStartTimeSet() {return startTimeSet;}
+
+    public long getArrivalTime() {return arrivalTime;}
+    public long getBurstTime() {return burstTime;}
+    public long getFinishTime() {return finishTime;}
+    public long getPID() {return PID;}
+    public long getPriority() {return priority;}
+    public long getRemainingTime() {return remainingTime;}
+    public long getResponceTime() {return responceTime;}
+    public long getStartTime() {return startTime;}
+    public long getWaitingTime() {return waitingTime;}
+	public long getTurnAroundTime() {return turnAroundTime;}
+	public long getLastArrivalTime() {return lastArrival;}
+
+	public String toStatString()
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.append("StartTime: ");
+			sb.append(String.valueOf(startTime));
+		sb.append("  FinishTime: ");
+			sb.append(String.valueOf(finishTime));
+		sb.append("  WaitingTime");
+			sb.append(String.valueOf(waitingTime));
+		return sb.toString();
+	}
 
 	@Override
 	public String toString() 
@@ -58,8 +108,9 @@ public class Process
 			sb.append(String.valueOf(burstTime));
 		sb.append("  Priority: ");
 			sb.append(String.valueOf(priority));
-		sb.append("\n");
 		return sb.toString();
 	}
+
+	
 
 }
