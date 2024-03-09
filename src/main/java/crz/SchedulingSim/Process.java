@@ -91,8 +91,10 @@ public class Process
 			sb.append(String.valueOf(startTime));
 		sb.append("  FinishTime: ");
 			sb.append(String.valueOf(finishTime));
-		sb.append("  WaitingTime");
+		sb.append("  WaitingTime: ");
 			sb.append(String.valueOf(waitingTime));
+		sb.append("  Remaining: ");
+			sb.append(String.valueOf(remainingTime));
 		return sb.toString();
 	}
 

@@ -378,6 +378,7 @@ public class Main
 
 		int lastCheckedIndex = 1;
 		long currentTime = 0;
+
 		pQueue.add(processes[0]);
 
 		while (!pQueue.isEmpty()) 
@@ -396,23 +397,29 @@ public class Main
 			boolean wasInterupted = false;
 			while (lastCheckedIndex < processes.length) 
 			{
-
 				Process innerActive = processes[lastCheckedIndex];
+
+				
+
+				lastCheckedIndex += 1;
 				if(innerActive.getArrivalTime() > currentTime + active.getRemainingTime())
 					break;
 
-				if(active.getPriority() < innerActive.getPriority())
+				if(active.getPriority() > innerActive.getPriority())
 				{
 					long passedTime = innerActive.getLastArrivalTime() - currentTime;
 
-					
-
+					active.decrementRemainingTime(passedTime);
+					currentTime += passedTime;
+					active.setLastArrivalTime(currentTime);					
 					wasInterupted = true;
+
+					pQueue.add(innerActive);
+					pQueue.add(active);
+					break;			
 				}
 				else
-					pQueue.add(processes[lastCheckedIndex]);
-
-				lastCheckedIndex += 1;
+					pQueue.add(innerActive); // Add lower priority processes to queue
 			}
 
 			if(!wasInterupted)
@@ -420,7 +427,6 @@ public class Main
 				currentTime += active.getRemainingTime();
 				active.setFinishTime(currentTime);
 			}
-
 
 		}
 
